@@ -1,0 +1,10 @@
+type: release
+name: stream
+version: 0.1
+description: Demo redis publisher
+ion: 0.0.1
+apps:
+  - name: redis_publisher
+    description: A process which perodically stores on redis and emits the same message on a particular stream (routing key)
+    version: 0.1
+    processapp: [redis_publisher, examples.redis_pub_sub.redis_publisher, RedisPublisher]

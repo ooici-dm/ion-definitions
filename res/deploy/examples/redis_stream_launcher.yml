@@ -1,0 +1,10 @@
+type: release
+name: stream
+version: 0.1
+description: Demo stream launcher
+ion: 0.0.1
+apps:
+  - name: redis_stream_launcher
+    description: A process which perodically emits a message on a particular stream (routing key)
+    version: 0.1
+    processapp: [redis_stream_launcher, examples.redis_pub_sub.redis_stream_launcher, RedisStreamLauncher]
