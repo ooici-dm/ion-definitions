@@ -61,6 +61,17 @@ methods:
     out:
       bounds: {} # {geo: [latmin, lonmin, latmax, lonmax], height:[min, max], time:[min, max]}
 
+  get_cache:
+    docstring: |
+        @brief Gets the latest cached information.
+        @param dataset_id
+        @return the LastUpdate for the dataset
+    in:
+      dataset_id: ""
+      cache_datastore_name: ""
+    out:
+      last_update: {}
+
   get_dataset_metadata:
     docstring: |
       @brief Get the metadata for the dataset using a couch map/reduce query
