@@ -1,0 +1,10 @@
+type: release
+name: stream
+version: 0.1
+description: Demo redis transform
+ion: 0.0.1
+apps:
+  - name: redis_transform
+    description: A transform which listens to an exchange
+    version: 0.1
+    processapp: [redis_transform, examples.redis_pub_sub.redis_transform, RedisTransform]
