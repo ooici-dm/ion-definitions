@@ -1,11 +1,12 @@
-# event.yml: events/notifications messages
+# event.yml: events/notifications object types
 
 Event:
-  origin: ""        # the origin of the event (derived specific). Mostly a resource id
-  origin_type: ""   # the type of origin (e.g. resource type, etc)
+  origin: ""        # the origin of the event (content specific to subtype). Mostly a resource id
+  origin_type: ""   # the type of origin (e.g. resource type, etc) or empty
   description: ""   # readable description of the event (not required)
   ts_created: ""    # timestamp of event created in millis in UNIX epoch
   base_types: []    # List of event super types
+  sub_type: ""      # A specialization of the event_type expressed by this object type (or empty)
 
 ---
 
@@ -21,6 +22,12 @@ ResourceLifecycleEvent: !Extends_ResourceEvent
   transition_event: ""
   resource_type: ""
 
+ResourceCommandEvent: !Extends_ResourceEvent
+  command: ""
+  result: ""
+
+ResourceOperatorEvent: !Extends_ResourceEvent
+
 ---
 
 ResourceModifiedEvent: !Extends_ResourceEvent
@@ -30,6 +37,9 @@ ResourceModifiedEvent: !Extends_ResourceEvent
 ContainerStateEnum: !enum (values=(START, STOP, TERMINATE, ERROR), default=START)
 
 ProcessStateEnum: !enum (values=(SPAWN, TERMINATE, ERROR), default=SPAWN)
+
+DeviceEvent: !Extends_Event
+    # The origin is a device (resource) id
 
 ---
 
@@ -45,7 +55,19 @@ ProcessLifecycleEvent: !Extends_Event
   process_type: ""
   process_name: ""
 
+IngestionEvent: !Extends_ResourceModifiedEvent
+  # origin: dataset id
+  stream_id: ""
+  status: 0
+
 ---
+
+GranuleIngestedEvent: !Extends_IngestionEvent
+  ingest_attributes: {}
+
+GranuleIngestionErrorEvent: !Extends_IngestionEvent
+  error_msg: ""
+
 
 DatasetIngestionConfigurationEvent: !Extends_ResourceModifiedEvent
   type: !DatasetIngestionTypeEnum
@@ -53,6 +75,36 @@ DatasetIngestionConfigurationEvent: !Extends_ResourceModifiedEvent
   deleted: False # Temporary - until we have resource life cycle events
   resource_id: ""
 
+---
+DeviceSpecificLifecycleEvent: !Extends_DeviceEvent
+
+DeviceCommonLifecycleEvent: !Extends_DeviceEvent
+
+DeviceCommandEvent: !Extends_ResourceCommandEvent
+
+DeviceOperatorEvent: !Extends_ResourceOperatorEvent
+
+---
+
+NegotiationEvent: !Extends_Event
+  # The origin is the id of the provider actor (e.g. org id, resource id)
+
+---
+
+RequestStatusEvent: !Extends_NegotiationEvent
+  # The origin is the org_id
+  request_id: ""
+  user_id: ""
+
+---
+
+EnrollmentRequestStatusEvent: !Extends_RequestStatusEvent
+
+RoleRequestStatusEvent: !Extends_RequestStatusEvent
+  role_name: ""
+
+ResourceRequestStatusEvent: !Extends_RequestStatusEvent
+  resource_id: ""
 
 # ------------------------------------------------------------------------------------
 # FORMER R1 event types - delete if not needed
@@ -129,3 +181,8 @@ DataEvent: !Extends_Event
 InstrumentSampleDataEvent: !Extends_DataEvent
   could_not_find_this_original_event_type: ""       # please2fill in
 
+---
+
+ExceptionEvent: !Extends_Event
+  exception_type: ""
+  exception_message: ""

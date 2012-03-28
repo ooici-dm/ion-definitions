@@ -1,7 +1,7 @@
 type: release
-name: r2deploy
+name: r2lca
 version: 0.1
-description: Release 2 deployment configuration
+description: Release 2 lca deployment configuration
 ion: 0.0.1
 apps:
   ##################################
@@ -110,7 +110,6 @@ apps:
     version: 0.1
     processapp: [state_repository, ion.services.coi.state_repository_service, StateRepositoryService]
 
-  # GATEWAY SERVICE MOVED TO THE END
 
   #### CEI Services
   - name: epu_management
@@ -158,7 +157,7 @@ apps:
   - name: data_retriever_service
     version: 0.1
     processapp: [data_retriever_service, ion.services.dm.inventory.data_retriever_service, DataRetrieverService]
-        
+
   - name: index_management
     version: 0.1
     processapp: [index_management, ion.services.dm.inventory.index_management_service, IndexManagementService]
@@ -218,19 +217,34 @@ apps:
 #      process:
 #        number_of_workers: 2
 
-
   ##### AS SERVICE
-  # - name: visualization_workflow_management
-  #   version: 0.1
-  #   processapp: [visualization_workflow_management, ion.services.ans.visualization_workflow_management_service, VisualizationWorkflowManagementService]
+#   - name: visualization_workflow_management
+#     version: 0.1
+#     processapp: [visualization_workflow_management, ion.services.ans.visualization_workflow_management_service, VisualizationWorkflowManagementService]
 
-  #- name: visualization_service
-  #  description: Responsible for spawning and maintaining viz transform processes and resulting viz data
-  #  version: 0.1
-  #  processapp: [visualization_service, ion.services.ans.visualization_service, VisualizationService]
+  - name: visualization_service
+    description: Responsible for spawning and maintaining viz transform processes and resulting viz data
+    version: 0.1
+    processapp: [visualization_service, ion.services.ans.visualization_service, VisualizationService]
 
-
-  # LAST SERVICE GATEWAY SERVICE
   - name: service_gateway
     version: 0.1
     processapp: [service_gateway, ion.services.coi.service_gateway_service, ServiceGatewayService]
+
+
+  - name: viz_stream_realtime
+    description: A process that emulates a real time stream from a NetCDF file
+    version: 0.1
+    processapp: [viz_stream_realtime, ion.processes.data.vis_stream_launcher, VisStreamLauncher]
+    config:
+        name: viz_data_realtime_sinusoidal
+        dataset: A
+
+  - name: viz_stream_realtime_sine
+    description: A process that emulates a real time stream from a sinusoidal source
+    version: 0.1
+    processapp: [viz_stream_realtime_sine, ion.processes.data.vis_stream_launcher, VisStreamLauncher]
+    config:
+        name: viz_data_realtime_B
+        dataset: B
+

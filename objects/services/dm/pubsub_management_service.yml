@@ -151,9 +151,15 @@ methods:
       BadRequestError: Throws when the subscription query object type is not found
 
   update_subscription:
-    docstring: Update an existing subscription.
+    docstring: |
+        Update an existing subscription.
+        @param subscription_id Identification for the subscription
+        @param query The new query
+        @throws NotFound if the resource doesn't exist
+        @retval True on success
     in:
-      subscription: !Subscription
+      subscription_id: ""
+      query: {}
     out:
       success: True
 
@@ -183,6 +189,7 @@ methods:
       success: True
     throws:
       NotFound: if subscription_id doesn't exist
+      BadRequest: Subscription is already active!
 
   deactivate_subscription:
     docstring: Unbinds a subscription using a channel layer.
@@ -192,7 +199,7 @@ methods:
       success: True
     throws:
       NotFound: if subscription_id doesn't exist
-
+      BadRequest: Subscription is not active!
   # -----------------
 
   register_consumer:

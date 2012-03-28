@@ -88,6 +88,7 @@ methods:
       data_process_definition_id: ""
       in_data_product_id: ""
       out_data_products: {}
+      configuration: {}
     out:
       data_process_id: ""
       
@@ -119,6 +120,13 @@ methods:
     out:
       data_process_list: []
 
+  activate_data_process:
+    #This op may not make sense at this time
+    in:
+      data_process_id: ""
+    out:
+    throws:
+      NotFound: object with specified id does not exist
 
   # -----------------
 

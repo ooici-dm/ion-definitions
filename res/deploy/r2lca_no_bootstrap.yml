@@ -1,7 +1,7 @@
 type: release
-name: r2deploy
+name: r2lca
 version: 0.1
-description: Release 2 deployment configuration
+description: Release 2 lca deployment configuration
 ion: 0.0.1
 apps:
   ##################################
@@ -14,42 +14,18 @@ apps:
     version: 0.1
     processapp: [datastore, ion.services.coi.datastore_service, DataStoreService]
 
-  - name: bootstrap
-    version: 0.1
-    processapp: [bootstrap, ion.core.bootstrap_service, BootstrapService]
-    config:
-      level: datastore
-
   - name: directory
     version: 0.1
     processapp: [directory, ion.services.coi.directory_service, DirectoryService]
-
-  - name: bootstrap
-    version: 0.1
-    processapp: [bootstrap, ion.core.bootstrap_service, BootstrapService]
-    config:
-      level: directory
 
   - name: resource_registry
     description: Resource registry service
     version: 0.1
     processapp: [resource_registry, ion.services.coi.resource_registry_service, ResourceRegistryService]
 
-  - name: bootstrap
-    version: 0.1
-    processapp: [bootstrap, ion.core.bootstrap_service, BootstrapService]
-    config:
-      level: resource_registry
-
   - name: identity_management
     version: 0.1
     processapp: [identity_management, ion.services.coi.identity_management_service, IdentityManagementService]
-
-  - name: bootstrap
-    version: 0.1
-    processapp: [bootstrap, ion.core.bootstrap_service, BootstrapService]
-    config:
-      level: identity_management
 
   - name: policy_management
     version: 0.1
@@ -59,27 +35,9 @@ apps:
     version: 0.1
     processapp: [org_management, ion.services.coi.org_management_service, OrgManagementService]
 
-  - name: bootstrap
-    version: 0.1
-    processapp: [bootstrap, ion.core.bootstrap_service, BootstrapService]
-    config:
-      level: org_management
-
-#  - name: bootstrap
-#    version: 0.1
-#    processapp: [bootstrap, ion.core.bootstrap_service, BootstrapService]
-#    config:
-#      level: load_system_policy
-
   - name: exchange_management
     version: 0.1
     processapp: [exchange_management, ion.services.coi.exchange_management_service, ExchangeManagementService]
-
-  - name: bootstrap
-    version: 0.1
-    processapp: [bootstrap, ion.core.bootstrap_service, BootstrapService]
-    config:
-      level: exchange_management
 
   ##################################
   # HIGHER LEVEL SERVICES - TODO: CORRECT ORDER NEEDS TO BE FIGURED OUT ONCE IMPLEMENTATION HAS BEEN COMPLETED
@@ -110,7 +68,6 @@ apps:
     version: 0.1
     processapp: [state_repository, ion.services.coi.state_repository_service, StateRepositoryService]
 
-  # GATEWAY SERVICE MOVED TO THE END
 
   #### CEI Services
   - name: epu_management
@@ -158,7 +115,7 @@ apps:
   - name: data_retriever_service
     version: 0.1
     processapp: [data_retriever_service, ion.services.dm.inventory.data_retriever_service, DataRetrieverService]
-        
+
   - name: index_management
     version: 0.1
     processapp: [index_management, ion.services.dm.inventory.index_management_service, IndexManagementService]
@@ -211,26 +168,41 @@ apps:
           server: localhost
           datastore_profile: SCIDATA
 
-#  - name: last_update_cache_launcher
-#    version: 0.1
-#    processapp: [cache_launcher, ion.processes.data.cache_launcher, CacheLauncher]
-#    config:
-#      process:
-#        number_of_workers: 2
+  - name: last_update_cache_launcher
+    version: 0.1
+    processapp: [cache_launcher, ion.processes.data.cache_launcher, CacheLauncher]
+    config:
+      process:
+        number_of_workers: 2
 
 
   ##### AS SERVICE
-  # - name: visualization_workflow_management
-  #   version: 0.1
-  #   processapp: [visualization_workflow_management, ion.services.ans.visualization_workflow_management_service, VisualizationWorkflowManagementService]
+#   - name: visualization_workflow_management
+#     version: 0.1
+#     processapp: [visualization_workflow_management, ion.services.ans.visualization_workflow_management_service, VisualizationWorkflowManagementService]
 
-  #- name: visualization_service
-  #  description: Responsible for spawning and maintaining viz transform processes and resulting viz data
-  #  version: 0.1
-  #  processapp: [visualization_service, ion.services.ans.visualization_service, VisualizationService]
+  - name: visualization_service
+    description: Responsible for spawning and maintaining viz transform processes and resulting viz data
+    version: 0.1
+    processapp: [visualization_service, ion.services.ans.visualization_service, VisualizationService]
 
-
-  # LAST SERVICE GATEWAY SERVICE
   - name: service_gateway
     version: 0.1
     processapp: [service_gateway, ion.services.coi.service_gateway_service, ServiceGatewayService]
+
+
+  - name: viz_stream_realtime
+    description: A process that emulates a real time stream from a NetCDF file
+    version: 0.1
+    processapp: [viz_stream_realtime, ion.processes.data.vis_stream_launcher, VisStreamLauncher]
+    config:
+        name: viz_data_realtime_sinusoidal
+        dataset: A
+
+  - name: viz_stream_realtime_sine
+    description: A process that emulates a real time stream from a sinusoidal source
+    version: 0.1
+    processapp: [viz_stream_realtime_sine, ion.processes.data.vis_stream_launcher, VisStreamLauncher]
+    config:
+        name: viz_data_realtime_B
+        dataset: B

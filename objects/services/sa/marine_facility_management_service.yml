@@ -368,20 +368,6 @@ methods:
   # Special Associations
   #
 
-  reassign_instrument_device_to_logical_instrument:
-    in:
-      logical_instrument_id: ""
-      old_instrument_device_id: ""
-      new_instrument_device_id: ""
-      logical_data_product_ids: []
-      old_instrument_data_product_ids: []
-      new_instrument_data_product_ids: []
-    out:
-    throws:
-      NotFound: object with specified id does not exist
-
-  # -----------------
-
   define_observatory_policy:
     in:
     out:
@@ -451,12 +437,24 @@ methods:
   # Specialized Finds
   #
 
+  find_subordinate_frames_of_reference:
+    in:
+      input_resource_id: ""
+    out:
+      output_resource_lists: {}
+    
+  find_superior_frames_of_reference:
+    in:
+      input_resource_id: ""
+    out:
+      output_resource_lists: {}
+    
   find_subordinate_entity:
     in:
-      parent_resource_id: ""
-      child_resource_type_list: []
+      input_resource_id: ""
+      output_resource_type_list: []
     out:
-      child_resource_lists: {}
+      output_resource_lists: {}
       
 
   find_instrument_device_by_logical_platform:
