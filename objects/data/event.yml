@@ -237,9 +237,10 @@ ExceptionEvent: !Extends_Event
 ---
 # input for example detection process
 ExampleDetectableEvent: !Extends_Event
-  voltage: 0
-  location: [] # for geo-searching
-  resource_id: '' # for regex searches on resource_id strings
+  # Use the description from the base event for regex
+  voltage: 0 # Used for range query
+  location: !GeospatialLocation # used for geo-searching
+
 
 ---
 # output event from detection process
