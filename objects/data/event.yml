@@ -238,6 +238,8 @@ ExceptionEvent: !Extends_Event
 # input for example detection process
 ExampleDetectableEvent: !Extends_Event
   voltage: 0
+  location: []
+  resource_id: ''
 
 ---
 # output event from detection process
